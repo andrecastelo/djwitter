@@ -61,5 +61,6 @@ def tweet_view(request):
 
     tweet_body = form.cleaned_data['message']
     Tweet.objects.create(user=request.user, body=tweet_body)
+    messages.success(request, "Tweet posted")
 
     return HttpResponseRedirect(reverse('index'))
