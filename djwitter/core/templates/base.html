@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tweets!!</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.1/css/bulma.min.css">
+    <link rel="stylesheet" href="https://opensource.keycdn.com/fontawesome/4.7.0/font-awesome.min.css">
+</head>
+<body>
+    <section class="section">
+        <nav class="navbar" role="navigation" aria-label="main navigation">
+            <div class="container">
+                <div class="navbar-brand">
+                    <h1 class='title'>Djwitter</h1>
+                </div>
+                <div class="navbar-menu">
+                    <div class="navbar-end">
+                        {% if user.is_authenticated %}
+                        <div class="navbar-item">
+                            {{ user.username }}
+                        </div>
+                        <div class="navbar-item">
+                            <a href="{% url 'logout' %}">logout</a>
+                        </div>
+                        {% else %}
+                        <div class="navbar-item">
+                            <a href="/login">login</a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </section>
+
+    {% if messages %}
+        <div class="container">
+        {% for message in messages %}
+            <article class="message
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %} is-danger
+                {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %} is-success
+                {% endif %}">
+                <div class="message-body">{{ message }}</div>
+            </article>
+        {% endfor %}
+        </div>
+    {% endif %}
+
+    {% block content %}
+    {% endblock %}
+</body>
+</html>
