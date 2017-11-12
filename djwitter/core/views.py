@@ -11,9 +11,7 @@ from .forms import LoginForm, TweetForm
 
 # Create your views here.
 def index(request):
-    data = {
-        'tweets': Tweet.objects.all(),
-    }
+    data = {'tweets': Tweet.objects.order_by('-created_at').all()}
 
     return render(request, 'index.html', data)
 
