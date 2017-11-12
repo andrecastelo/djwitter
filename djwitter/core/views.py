@@ -3,9 +3,10 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 from .models import Tweet
-from .forms import LoginForm
+from .forms import LoginForm, TweetForm
 
 
 # Create your views here.
@@ -49,4 +50,18 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     messages.success(request, "You are logged out.")
+    return HttpResponseRedirect(reverse('index'))
+
+
+@login_required(login_url='/login')
+def tweet_view(request):
+    form = TweetForm(request.POST)
+
+    if not form.is_valid():
+        messages.error(request, form.errors)
+        return HttpResponseRedirect(reverse('index'))
+
+    tweet_body = form.cleaned_data['message']
+    Tweet.objects.create(user=request.user, body=tweet_body)
+
     return HttpResponseRedirect(reverse('index'))

@@ -3,6 +3,21 @@
 {% block content %}
     <section class="section">
         <div class="container">
+            <div class="box">
+                <form method='post' action="{% url 'tweets' %}">
+                    {% csrf_token %}
+                    <div class="field">
+                        <label class="label">What's cracking, my dude?</label>
+                        <div class="control">
+                            <textarea name="message" id="" rows="3" class="textarea"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <input class="button is-primary" type="submit" value="Submit"/>
+                    </div>
+                </form>
+            </div>
             {% for tweet in tweets %}
             <div class="box">
                 <p>
